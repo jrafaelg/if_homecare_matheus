@@ -186,4 +186,3 @@ function generateSlug($string) {
     $string = preg_replace('/[\s-]+/', '-', $string);
     return trim($string, '-');
 }
-?>
