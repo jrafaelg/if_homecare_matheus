@@ -1,5 +1,6 @@
 -- Criação do Banco de Dados
-CREATE DATABASE if_homecare
+CREATE DATABASE if_homecare;
+USE if_homecare;
 
 -- Tabela de Usuários
 CREATE TABLE usuarios (
@@ -17,7 +18,7 @@ CREATE TABLE usuarios (
     INDEX idx_email (email),
     INDEX idx_tipo_usuario (tipo_usuario),
     INDEX idx_status (status)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Tabela de Endereços
 CREATE TABLE enderecos (

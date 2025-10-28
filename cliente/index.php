@@ -98,7 +98,7 @@ try {
         </div>
         <ul class="sidebar-menu">
             <li><a href="index.php" class="active">📊 Dashboard</a></li>
-            <li><a href="buscar.php">🔍 Buscar Prestadores</a></li>
+            <li><a href="buscar_prestadores.php">🔍 Buscar Prestadores</a></li>
             <li><a href="solicitacoes.php">📋 Minhas Solicitações</a></li>
             <li><a href="enderecos.php">📍 Meus Endereços</a></li>
             <li><a href="perfil.php">👤 Meu Perfil</a></li>
@@ -141,7 +141,7 @@ try {
         <?php endif; ?>
 
         <div class="d-flex gap-3 mb-3">
-            <a href="buscar.php" class="btn btn-primary btn-lg">🔍 Buscar Prestadores</a>
+            <a href="buscar_prestadores.php" class="btn btn-primary btn-lg">🔍 Buscar Prestadores</a>
         </div>
 
         <div class="card">
@@ -164,7 +164,7 @@ try {
                     <?php if (empty($solicitacoes)): ?>
                         <tr><td colspan="5" class="text-center">
                                 Você ainda não fez nenhuma solicitação.<br>
-                                <a href="buscar.php">Buscar prestadores agora</a>
+                                <a href="buscar_prestadores.php">Buscar prestadores agora</a>
                             </td></tr>
                     <?php else: ?>
                         <?php foreach ($solicitacoes as $solicitacao): ?>

@@ -22,7 +22,7 @@ if (isLoggedIn()) {
             <h1 class="logo"><?= SITE_NAME ?></h1>
             <nav class="header-nav">
                 <a href="auth/login.php" class="btn btn-outline">Entrar</a>
-                <a href="auth/register.php" class="btn btn-primary">Cadastrar</a>
+                <a href="auth/registro.php" class="btn btn-primary">Cadastrar</a>
             </nav>
         </div>
     </div>
@@ -35,8 +35,8 @@ if (isLoggedIn()) {
                 <h2>Cuidados de Saúde no Conforto do Seu Lar</h2>
                 <p>Conectamos você aos melhores profissionais de saúde para atendimento domiciliar</p>
                 <div class="hero-buttons">
-                    <a href="auth/register.php" class="btn btn-primary btn-lg">Encontrar Profissionais</a>
-                    <a href="auth/register.php" class="btn btn-secondary btn-lg">Oferecer Serviços</a>
+                    <a href="auth/registro.php" class="btn btn-primary btn-lg">Encontrar Profissionais</a>
+                    <a href="auth/registro.php" class="btn btn-secondary btn-lg">Oferecer Serviços</a>
                 </div>
             </div>
         </div>
