@@ -169,6 +169,7 @@ try {
                                         <a href="buscar_prestadores.php">Buscar prestadores agora</a>
                                     </td>
                                 </tr>
+
                             <?php else: ?>
                                 <?php foreach ($solicitacoes as $solicitacao): ?>
                                     <tr>
