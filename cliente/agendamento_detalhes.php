@@ -96,6 +96,7 @@ $status_classes = [
             <li><a href="../auth/logout.php">🚪 Sair</a></li>
         </ul>
     </aside>
+    
 
     <!-- Conteúdo Principal -->
     <main class="main-content">
