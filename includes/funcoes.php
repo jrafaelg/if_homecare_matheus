@@ -1,21 +1,30 @@
 <?php
+
+
 /**
  * Funções Auxiliares do Sistema
  */
 
 // Redirecionar para uma página
-function redirect($url) {
+function redirect($url)
+{
+
+    //echo (SITE_URL . $url);
+    //exit;
+
     header("Location: " . SITE_URL . $url);
     exit();
 }
 
 // Verificar se usuário está logado
-function isLoggedIn() {
+function isLoggedIn()
+{
     return isset($_SESSION['user_id']);
 }
 
 // Obter dados do usuário logado
-function getLoggedUser() {
+function getLoggedUser()
+{
     if (!isLoggedIn()) {
         return null;
     }
@@ -28,7 +37,8 @@ function getLoggedUser() {
 }
 
 // Verificar tipo de usuário
-function checkUserType($tipo) {
+function checkUserType($tipo)
+{
     if (!isLoggedIn()) {
         redirect('/auth/login.php');
     }
@@ -39,17 +49,20 @@ function checkUserType($tipo) {
 }
 
 // Limpar dados de entrada
-function sanitize($data) {
+function sanitize($data)
+{
     return htmlspecialchars(strip_tags(trim($data)));
 }
 
 // Validar email
-function isValidEmail($email) {
+function isValidEmail($email)
+{
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
 // Validar CPF
-function isValidCPF($cpf) {
+function isValidCPF($cpf)
+{
     $cpf = preg_replace('/[^0-9]/', '', $cpf);
 
     if (strlen($cpf) != 11 || preg_match('/(\d)\1{10}/', $cpf)) {
@@ -69,13 +82,15 @@ function isValidCPF($cpf) {
 }
 
 // Formatar CPF
-function formatCPF($cpf) {
+function formatCPF($cpf)
+{
     $cpf = preg_replace('/[^0-9]/', '', $cpf);
     return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $cpf);
 }
 
 // Formatar telefone
-function formatPhone($phone) {
+function formatPhone($phone)
+{
     $phone = preg_replace('/[^0-9]/', '', $phone);
     if (strlen($phone) == 11) {
         return preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $phone);
@@ -86,30 +101,35 @@ function formatPhone($phone) {
 }
 
 // Formatar CEP
-function formatCEP($cep) {
+function formatCEP($cep)
+{
     $cep = preg_replace('/[^0-9]/', '', $cep);
     return preg_replace('/(\d{5})(\d{3})/', '$1-$2', $cep);
 }
 
 // Formatar data brasileira
-function formatDateBR($date) {
+function formatDateBR($date)
+{
     if (empty($date)) return '';
     return date('d/m/Y', strtotime($date));
 }
 
 // Formatar data e hora brasileira
-function formatDateTimeBR($datetime) {
+function formatDateTimeBR($datetime)
+{
     if (empty($datetime)) return '';
     return date('d/m/Y H:i', strtotime($datetime));
 }
 
 // Formatar moeda
-function formatMoney($value) {
+function formatMoney($value)
+{
     return 'R$ ' . number_format($value, 2, ',', '.');
 }
 
 // Upload de arquivo
-function uploadFile($file, $folder = '') {
+function uploadFile($file, $folder = '')
+{
     if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
         return ['success' => false, 'message' => 'Erro no upload do arquivo'];
     }
@@ -140,22 +160,26 @@ function uploadFile($file, $folder = '') {
 }
 
 // Gerar hash de senha
-function hashPassword($password) {
+function hashPassword($password)
+{
     return password_hash($password, PASSWORD_DEFAULT);
 }
 
 // Verificar senha
-function verifyPassword($password, $hash) {
+function verifyPassword($password, $hash)
+{
     return password_verify($password, $hash);
 }
 
 // Gerar token aleatório
-function generateToken($length = 32) {
+function generateToken($length = 32)
+{
     return bin2hex(random_bytes($length));
 }
 
 // Exibir mensagem de alerta
-function setAlert($message, $type = 'info') {
+function setAlert($message, $type = 'info')
+{
     $_SESSION['alert'] = [
         'message' => $message,
         'type' => $type // success, error, warning, info
@@ -163,7 +187,8 @@ function setAlert($message, $type = 'info') {
 }
 
 // Obter e limpar mensagem de alerta
-function getAlert() {
+function getAlert()
+{
     if (isset($_SESSION['alert'])) {
         $alert = $_SESSION['alert'];
         unset($_SESSION['alert']);
@@ -173,14 +198,16 @@ function getAlert() {
 }
 
 // Calcular idade
-function calculateAge($birthdate) {
+function calculateAge($birthdate)
+{
     $birthDate = new DateTime($birthdate);
     $today = new DateTime();
     return $today->diff($birthDate)->y;
 }
 
 // Gerar slug
-function generateSlug($string) {
+function generateSlug($string)
+{
     $string = strtolower($string);
     $string = preg_replace('/[^a-z0-9\s-]/', '', $string);
     $string = preg_replace('/[\s-]+/', '-', $string);

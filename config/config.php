@@ -3,10 +3,13 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+error_reporting(E_ALL);
+ini_set('error_reporting', E_ALL);
+#display_errors = On;
 
 // Configurações Gerais do Sistema
 define('SITE_NAME', 'Sistema Homecare');
-define('SITE_URL', 'http://localhost/if_homecare');
+define('SITE_URL', $_SERVER['HTTP_HOST'] . '/if_homecare');
 define('BASE_PATH', __DIR__ . '/..');
 
 // Configurações de Timezone
@@ -45,4 +48,3 @@ require_once BASE_PATH . '/database/conexao.php';
 
 // Incluir funções auxiliares
 require_once BASE_PATH . '/includes/funcoes.php';
-?>
