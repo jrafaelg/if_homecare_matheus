@@ -88,8 +88,8 @@ $alert = getAlert();
             <li><a href="index.php">📊 Dashboard</a></li>
             <li><a href="usuarios.php">👥 Usuários</a></li>
             <li><a href="servicos.php" class="active">🏥 Serviços</a></li>
-            <li><a href="solicitacoes.php">📋 Solicitações</a></li>
             <li><a href="relatorios.php">📈 Relatórios</a></li>
+            <li><a href="perfil.php">👤 Meu Perfil</a></li>
             <li><a href="../auth/logout.php">🚪 Sair</a></li>
         </ul>
     </aside>

@@ -175,6 +175,19 @@ CREATE TABLE notificacoes (
     INDEX idx_data (data_criacao)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Tabela de Configurações do Administrador
+CREATE TABLE admin_configuracoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    admin_id INT NOT NULL,
+    timezone VARCHAR(50) DEFAULT 'America/Sao_Paulo',
+    notificacoes_email BOOLEAN DEFAULT TRUE,
+    relatorios_automaticos BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (admin_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    INDEX idx_admin_configuracoes_admin (admin_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Inserir usuário admin padrão (senha: admin123 - hash MD5 para exemplo)
 INSERT INTO usuarios (nome, email, senha, tipo_usuario, status) 
 VALUES ('Administrador', 'admin@homecare.com', MD5('admin123'), 'admin', 'ativo');
@@ -186,3 +199,33 @@ INSERT INTO servicos (nome_servico, descricao, categoria, status) VALUES
 ('Cuidador de Idosos', 'Cuidados e acompanhamento de pessoas idosas', 'Cuidados', 'ativo'),
 ('Nutricionista', 'Acompanhamento nutricional domiciliar', 'Saúde', 'ativo'),
 ('Auxiliar de Enfermagem', 'Auxílio em cuidados básicos de saúde', 'Saúde', 'ativo');
+
+-- 
+Tabela de Disponibilidade do Prestador
+CREATE TABLE disponibilidade_prestador (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prestador_id INT NOT NULL,
+    dia_semana ENUM('domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado') NOT NULL,
+    disponivel BOOLEAN DEFAULT TRUE,
+    horario_inicio TIME,
+    horario_fim TIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (prestador_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_prestador_dia (prestador_id, dia_semana),
+    INDEX idx_prestador (prestador_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabela de Bloqueios de Agenda
+CREATE TABLE bloqueios_agenda (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prestador_id INT NOT NULL,
+    data_inicio DATE NOT NULL,
+    data_fim DATE NOT NULL,
+    motivo ENUM('ferias', 'folga', 'compromisso', 'outro') NOT NULL,
+    observacoes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (prestador_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    INDEX idx_prestador (prestador_id),
+    INDEX idx_datas (data_inicio, data_fim)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
