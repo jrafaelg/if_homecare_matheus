@@ -19,7 +19,9 @@ if (isLoggedIn()) {
 <header class="site-header">
     <div class="container">
         <div class="header-content">
+            <img src="./imagens/Logo.png" alt="" width="120px">
             <h1 class="logo"><?= SITE_NAME ?></h1>
+            <!-- <img src="./imagens.Logo.png" alt=""> -->
             <nav class="header-nav">
                 <a href="auth/login.php" class="btn btn-outline">Entrar</a>
                 <a href="auth/registro.php" class="btn btn-primary">Cadastrar</a>

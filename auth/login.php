@@ -55,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1><?= SITE_NAME ?></h1>
             <p>Faça login para continuar</p>
         </div>
-
         <?php if ($error): ?>
             <div class="alert alert-error">
                 <?= $error ?>

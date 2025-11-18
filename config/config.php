@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Configurações Gerais do Sistema
-define('SITE_NAME', 'Sistema Homecare');
+define('SITE_NAME', 'iF Homecare');
 define('SITE_URL', 'http://localhost/if_homecare');
 define('BASE_PATH', __DIR__ . '/..');
 
