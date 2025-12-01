@@ -8,7 +8,7 @@ ini_set('error_reporting', E_ALL);
 #display_errors = On;
 
 // Configurações Gerais do Sistema
-define('SITE_NAME', 'Sistema Homecare');
+define('SITE_NAME', 'IF Homecare');
 define('SITE_URL', $_SERVER['HTTP_HOST'] . '/if_homecare');
 define('BASE_PATH', __DIR__ . '/..');
 

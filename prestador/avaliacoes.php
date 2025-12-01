@@ -99,7 +99,6 @@ try {
             <li><a href="perfil.php">👤 Meu Perfil</a></li>
             <li><a href="servicos.php">🏥 Meus Serviços</a></li>
             <li><a href="solicitacoes.php">📋 Solicitações</a></li>
-            <li><a href="agenda.php">📅 Agenda</a></li>
             <li><a href="avaliacoes.php" class="active">⭐ Avaliações</a></li>
             <li><a href="../auth/logout.php">🚪 Sair</a></li>
         </ul>

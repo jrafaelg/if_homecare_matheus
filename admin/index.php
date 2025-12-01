@@ -48,20 +48,19 @@ try {
     $stmt = $db->query("SELECT * FROM usuarios ORDER BY data_cadastro DESC LIMIT 5");
     $ultimos_usuarios = $stmt->fetchAll();
 
-    // Últimas solicitações
+    // Estatísticas de atividade (últimos 30 dias)
     $stmt = $db->query("
-        SELECT s.*, 
-               c.nome as cliente_nome, 
-               p.nome as prestador_nome,
-               srv.nome_servico
-        FROM solicitacoes s
-        JOIN usuarios c ON s.cliente_id = c.id
-        JOIN usuarios p ON s.prestador_id = p.id
-        JOIN servicos srv ON s.servico_id = srv.id
-        ORDER BY s.data_solicitacao DESC
-        LIMIT 5
+        SELECT 
+            (SELECT COUNT(*) FROM usuarios WHERE data_cadastro >= DATE_SUB(NOW(), INTERVAL 30 DAY)) as novos_usuarios_mes,
+            (SELECT COUNT(*) FROM solicitacoes WHERE status = 'concluida' AND data_conclusao >= DATE_SUB(NOW(), INTERVAL 30 DAY)) as atendimentos_mes,
+            (SELECT AVG(nota) FROM avaliacoes WHERE data_avaliacao >= DATE_SUB(NOW(), INTERVAL 30 DAY)) as media_geral,
+            (SELECT SUM(valor_total) FROM solicitacoes WHERE status = 'concluida' AND data_conclusao >= DATE_SUB(NOW(), INTERVAL 30 DAY)) as volume_mes
     ");
-    $ultimas_solicitacoes = $stmt->fetchAll();
+    $stats_atividade = $stmt->fetch();
+    // Mesclar com stats existentes
+    $stats = array_merge($stats, $stats_atividade);
+
+
 
 } catch (PDOException $e) {
     $error = "Erro ao buscar estatísticas";
@@ -89,8 +88,8 @@ $user = getLoggedUser();
             <li><a href="index.php" class="active">📊 Dashboard</a></li>
             <li><a href="usuarios.php">👥 Usuários</a></li>
             <li><a href="servicos.php">🏥 Serviços</a></li>
-            <li><a href="solicitacoes.php">📋 Solicitações</a></li>
-            <li><a href="relatorios.php">📈 Relatórios</a></li>
+            <li><a href="relatorios.php">� Relaltórios</a></li>
+            <li><a href="perfil.php">👤 Meu Perfil</a></li>
             <li><a href="../auth/logout.php">🚪 Sair</a></li>
         </ul>
     </aside>
@@ -174,61 +173,44 @@ $user = getLoggedUser();
             </div>
         </div>
 
+        <!-- Atividade do Sistema -->
         <div class="card">
             <div class="card-header">
-                <h3>Últimas Solicitações</h3>
+                <h3>📊 Atividade do Sistema (Últimos 30 dias)</h3>
             </div>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Prestador</th>
-                        <th>Serviço</th>
-                        <th>Data Início</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php if (empty($ultimas_solicitacoes)): ?>
-                        <tr><td colspan="5" class="text-center">Nenhuma solicitação encontrada</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($ultimas_solicitacoes as $solicitacao): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($solicitacao['cliente_nome']) ?></td>
-                                <td><?= htmlspecialchars($solicitacao['prestador_nome']) ?></td>
-                                <td><?= htmlspecialchars($solicitacao['nome_servico']) ?></td>
-                                <td><?= formatDateBR($solicitacao['data_inicio']) ?></td>
-                                <td>
-                                    <?php
-                                    $status_class = [
-                                        'pendente' => 'badge-warning',
-                                        'aceita' => 'badge-info',
-                                        'recusada' => 'badge-error',
-                                        'em_andamento' => 'badge-info',
-                                        'concluida' => 'badge-success',
-                                        'cancelada' => 'badge-secondary'
-                                    ];
-                                    $status_label = [
-                                        'pendente' => 'Pendente',
-                                        'aceita' => 'Aceita',
-                                        'recusada' => 'Recusada',
-                                        'em_andamento' => 'Em Andamento',
-                                        'concluida' => 'Concluída',
-                                        'cancelada' => 'Cancelada'
-                                    ];
-                                    ?>
-                                    <span class="badge <?= $status_class[$solicitacao['status']] ?>">
-                                                <?= $status_label[$solicitacao['status']] ?>
-                                            </span>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                    </tbody>
-                </table>
+            <div class="activity-stats">
+                <div class="activity-item">
+                    <div class="activity-icon">👥</div>
+                    <div class="activity-info">
+                        <strong>Novos Usuários</strong>
+                        <span><?= $stats['novos_usuarios_mes'] ?? 0 ?></span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🏥</div>
+                    <div class="activity-info">
+                        <strong>Atendimentos Concluídos</strong>
+                        <span><?= $stats['atendimentos_mes'] ?? 0 ?></span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">⭐</div>
+                    <div class="activity-info">
+                        <strong>Média de Avaliações</strong>
+                        <span><?= isset($stats['media_geral']) ? number_format($stats['media_geral'], 1) . ' ⭐' : 'N/A' ?></span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">💰</div>
+                    <div class="activity-info">
+                        <strong>Volume Financeiro</strong>
+                        <span><?= isset($stats['volume_mes']) ? 'R$ ' . number_format($stats['volume_mes'], 2, ',', '.') : 'R$ 0,00' ?></span>
+                    </div>
+                </div>
             </div>
         </div>
+
+
     </main>
 </div>
 </body>
