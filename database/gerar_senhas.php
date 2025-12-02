@@ -10,4 +10,3 @@ echo "\nUse este hash no script SQL para substituir os hashes incorretos.\n";
 echo "\nPara testar o login:\n";
 echo "Email: joao.silva@email.com\n";
 echo "Senha: 123456\n";
-?>

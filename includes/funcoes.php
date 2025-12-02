@@ -84,6 +84,7 @@ function isValidCPF($cpf)
 // Formatar CPF
 function formatCPF($cpf)
 {
+    if (empty($cpf)) return null;
     $cpf = preg_replace('/[^0-9]/', '', $cpf);
     return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $cpf);
 }
@@ -91,6 +92,7 @@ function formatCPF($cpf)
 // Formatar telefone
 function formatPhone($phone)
 {
+    if (empty($phone)) return null;
     $phone = preg_replace('/[^0-9]/', '', $phone);
     if (strlen($phone) == 11) {
         return preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $phone);
@@ -103,6 +105,7 @@ function formatPhone($phone)
 // Formatar CEP
 function formatCEP($cep)
 {
+    if (empty($cep)) return null;
     $cep = preg_replace('/[^0-9]/', '', $cep);
     return preg_replace('/(\d{5})(\d{3})/', '$1-$2', $cep);
 }
@@ -124,6 +127,7 @@ function formatDateTimeBR($datetime)
 // Formatar moeda
 function formatMoney($value)
 {
+    if (empty($value)) return '';
     return 'R$ ' . number_format($value, 2, ',', '.');
 }
 

@@ -190,7 +190,7 @@ CREATE TABLE admin_configuracoes (
 
 -- Inserir usuário admin padrão (senha: admin123 - hash MD5 para exemplo)
 INSERT INTO usuarios (nome, email, senha, tipo_usuario, status) 
-VALUES ('Administrador', 'admin@homecare.com', MD5('admin123'), 'admin', 'ativo');
+VALUES ('Administrador', 'admin@homecare.com', '$2y$10$j7LlmvimThHEpUsxi/SKxuHM6/ZpwZeCQRgtVHzZj8w/DHTAkeOPi', 'admin', 'ativo');
 
 -- Inserir alguns serviços de exemplo
 INSERT INTO servicos (nome_servico, descricao, categoria, status) VALUES
